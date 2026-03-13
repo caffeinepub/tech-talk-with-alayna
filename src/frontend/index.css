@@ -1,0 +1,73 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,800;1,9..144,400&family=Figtree:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0.97 0.01 80;
+    --foreground: 0.22 0.04 50;
+    --card: 0.99 0.005 80;
+    --card-foreground: 0.22 0.04 50;
+    --popover: 0.99 0.005 80;
+    --popover-foreground: 0.22 0.04 50;
+    --primary: 0.42 0.1 195;
+    --primary-foreground: 0.98 0.005 195;
+    --secondary: 0.94 0.03 80;
+    --secondary-foreground: 0.32 0.06 50;
+    --muted: 0.93 0.015 80;
+    --muted-foreground: 0.52 0.04 60;
+    --accent: 0.82 0.14 75;
+    --accent-foreground: 0.22 0.06 50;
+    --destructive: 0.55 0.22 25;
+    --destructive-foreground: 0.98 0.005 25;
+    --border: 0.88 0.025 75;
+    --input: 0.88 0.025 75;
+    --ring: 0.42 0.1 195;
+    --radius: 0.75rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground font-body;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+  h1, h2, h3 {
+    @apply font-display;
+  }
+}
+
+.grain-overlay {
+  position: relative;
+}
+.grain-overlay::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  border-radius: inherit;
+  z-index: 0;
+}
+
+.hero-gradient {
+  background: radial-gradient(
+    ellipse 80% 60% at 50% -10%,
+    oklch(0.42 0.1 195 / 0.12) 0%,
+    oklch(0.82 0.14 75 / 0.06) 50%,
+    transparent 80%
+  );
+}
+
+.card-hover {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px oklch(0.42 0.1 195 / 0.12);
+}
