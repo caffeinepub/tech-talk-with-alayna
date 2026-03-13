@@ -266,18 +266,6 @@ export default function StudentDashboard({
           </Card>
         </motion.section>
       </main>
-
-      <footer className="text-center py-4 text-sm text-muted-foreground border-t border-border">
-        © {new Date().getFullYear()}. Built with ❤️ using{" "}
-        <a
-          href={`https://caffeine.ai?utm_source=caffeine-footer&utm_medium=referral&utm_content=${encodeURIComponent(window.location.hostname)}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="underline hover:text-foreground"
-        >
-          caffeine.ai
-        </a>
-      </footer>
     </div>
   );
 }

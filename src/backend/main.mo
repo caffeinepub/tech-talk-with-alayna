@@ -93,6 +93,14 @@ actor {
   let adminUsername = "alayna";
   let adminPassword = "140693";
 
+  // Helper: assign a role directly without requiring caller to be admin
+  func assignRoleDirect(user : Principal, role : AccessControl.UserRole) {
+    accessControlState.userRoles.add(user, role);
+    if (role == #admin) {
+      accessControlState.adminAssigned := true;
+    };
+  };
+
   // User Profile Management (required by AccessControl integration)
   public query ({ caller }) func getCallerUserProfile() : async ?UserProfile {
     if (not (AccessControl.hasPermission(accessControlState, caller, #user))) {
@@ -141,8 +149,8 @@ actor {
     principalToUsername.add(caller, username);
     usernameToPrincipal.add(username, caller);
 
-    // Assign user role to the registered student
-    AccessControl.assignRole(accessControlState, caller, caller, #user);
+    // Assign user role directly (no admin required)
+    assignRoleDirect(caller, #user);
 
     // Create user profile for AccessControl system
     let userProfile : UserProfile = {
@@ -187,8 +195,8 @@ actor {
           };
         };
 
-        // Ensure user role is assigned
-        AccessControl.assignRole(accessControlState, caller, caller, #user);
+        // Ensure user role is assigned directly
+        assignRoleDirect(caller, #user);
 
         // Ensure user profile exists
         if (userProfiles.get(caller) == null) {
@@ -208,8 +216,8 @@ actor {
 
   public shared ({ caller }) func loginAdmin(username : Text, password : Text) : async Bool {
     if (username == adminUsername and password == adminPassword) {
-      // Assign admin role
-      AccessControl.assignRole(accessControlState, caller, caller, #admin);
+      // Assign admin role directly (no prior admin required)
+      assignRoleDirect(caller, #admin);
 
       // Create admin profile if needed
       if (userProfiles.get(caller) == null) {
